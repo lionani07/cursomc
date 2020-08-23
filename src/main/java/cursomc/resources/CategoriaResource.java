@@ -1,22 +1,22 @@
 package cursomc.resources;
 
+import cursomc.CategoriaService;
 import cursomc.domain.Categoria;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/categorias")
+@RequiredArgsConstructor
 public class CategoriaResource {
 
-    @GetMapping
-    public List<Categoria> listar() {
-        Categoria categoria1 = Categoria.builder().id(1).nome("Informática").build();
-        Categoria categoria2 = Categoria.builder().id(2).nome("Escritório").build();
+    private final CategoriaService service;
 
-        return List.of(categoria1, categoria2);
-
+    @GetMapping("/{id}")
+    public Categoria find(@PathVariable final Integer id) {
+        return this.service.find(id);
     }
 }

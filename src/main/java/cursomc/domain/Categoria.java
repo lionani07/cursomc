@@ -7,10 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Builder(toBuilder = true)
-@Value
-@EqualsAndHashCode(of = "id")
 @Entity
+@Data
 public class Categoria {
 
     @Id
