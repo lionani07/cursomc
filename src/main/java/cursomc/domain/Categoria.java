@@ -9,6 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
+@Builder(toBuilder = true)
 public class Categoria {
 
     @Id
