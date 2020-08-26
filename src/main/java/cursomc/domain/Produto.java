@@ -1,15 +1,17 @@
 package cursomc.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
 @Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class Produto {
 
     @Id
@@ -19,11 +21,11 @@ public class Produto {
     private Double valor;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name = "PRODUTO_CATEGORIA",
             joinColumns = @JoinColumn(name = "produto_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id")
     )
-    @Builder.Default
-    private List<Categoria> categorias = new ArrayList<>();
+    private final List<Categoria> categorias = new ArrayList<>();
 
 }

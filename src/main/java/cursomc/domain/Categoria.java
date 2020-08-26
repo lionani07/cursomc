@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
 @Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class Categoria {
 
     @Id
@@ -17,6 +19,5 @@ public class Categoria {
     private String nome;
 
     @ManyToMany(mappedBy = "categorias")
-    @Builder.Default
-    private List<Produto> produtos = new ArrayList<>();
+    private final List<Produto> produtos = new ArrayList<>();
 }
