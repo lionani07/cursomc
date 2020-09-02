@@ -1,13 +1,8 @@
 package cursomc;
 
-import cursomc.domain.Categoria;
-import cursomc.domain.Cidade;
-import cursomc.domain.Estado;
-import cursomc.domain.Produto;
-import cursomc.respositoires.CategoriaRepository;
-import cursomc.respositoires.CidadeRepository;
-import cursomc.respositoires.EstadoRepository;
-import cursomc.respositoires.ProdutoRepository;
+import cursomc.domain.*;
+import cursomc.domain.enums.TipoCliente;
+import cursomc.respositoires.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
@@ -28,6 +24,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -38,6 +38,7 @@ public class CursomcApplication implements CommandLineRunner {
 
 		insertIntoCategoriaProduto();
 		insertIntoCidadeEstado();
+		insertIntoClienteEndereco();
 	}
 
 	private void insertIntoCategoriaProduto() {
@@ -108,6 +109,45 @@ public class CursomcApplication implements CommandLineRunner {
 
 		this.estadoRepository.saveAll(List.of(minas, sp));
 		this.cidadeRepository.saveAll(List.of(uberlandia, taubate, campinas));
+
+	}
+
+	private void insertIntoClienteEndereco() {
+		Cliente  cliente = Cliente
+				.builder()
+				.nome("Maria Silva")
+				.email("maria@gmail.com")
+				.cpfOuCnpj("14898367488")
+				.tipo(TipoCliente.PESSOAFISICA)
+				.telefones(Set.of("27363323", "75843562"))
+				.build();
+
+		Endereco endereco1 = Endereco
+				.builder()
+				.cliente(cliente)
+				.logradouro("Rua Flores")
+				.numero("300")
+				.complemento("Apto 203")
+				.bairro("Jardim")
+				.cep("38220836")
+				.cidade(this.cidadeRepository.getOne(1))
+				.build();
+
+		Endereco endereco2 = Endereco
+				.builder()
+				.cliente(cliente)
+				.logradouro("Avenida Matos")
+				.numero("105")
+				.complemento("Sala 800")
+				.bairro("Centro")
+				.cep("38777022")
+				.cidade(this.cidadeRepository.getOne(2))
+				.build();
+
+		cliente.getEnderecos().addAll(List.of(endereco1, endereco2));
+
+		this.clienteRepository.save(cliente);
+		this.enderecoRepository.saveAll(List.of(endereco1, endereco2));
 
 	}
 }

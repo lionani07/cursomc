@@ -32,6 +32,8 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private final List<Endereco> enderecos = new ArrayList<>();
 
-    //private final Set<String> telefones = new HashSet<>();
+    @ElementCollection
+    @CollectionTable(name = "TELEFONE")
+    private Set<String> telefones = new HashSet<>();
 
 }
