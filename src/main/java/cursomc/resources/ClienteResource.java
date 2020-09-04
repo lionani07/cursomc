@@ -1,6 +1,5 @@
 package cursomc.resources;
 
-import cursomc.domain.Cliente;
 import cursomc.services.ClienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
