@@ -1,14 +1,18 @@
 package cursomc;
 
 import cursomc.domain.*;
+import cursomc.domain.enums.EstadoPagamento;
 import cursomc.domain.enums.TipoCliente;
 import cursomc.respositoires.*;
+import cursomc.services.ClienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +32,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -39,6 +47,7 @@ public class CursomcApplication implements CommandLineRunner {
 		insertIntoCategoriaProduto();
 		insertIntoCidadeEstado();
 		insertIntoClienteEndereco();
+		insertPedidos();
 	}
 
 	private void insertIntoCategoriaProduto() {
@@ -148,6 +157,51 @@ public class CursomcApplication implements CommandLineRunner {
 
 		this.clienteRepository.save(cliente);
 		this.enderecoRepository.saveAll(List.of(endereco1, endereco2));
+
+	}
+
+	private void insertPedidos() {
+		final var cliente = this.clienteRepository.findById(1).get();
+		final var enderecoDeEntrega = this.enderecoRepository.findById(1).get();
+
+
+		final var pedido1 = Pedido
+				.builder()
+				.instante(LocalDateTime.now().minusDays(1))
+				.cliente(cliente)
+				.enderecoDeEntrega(enderecoDeEntrega)
+				.build();
+
+		final var pedido2 = Pedido
+				.builder()
+				.instante(LocalDateTime.now())
+				.cliente(cliente)
+				.enderecoDeEntrega(enderecoDeEntrega)
+				.build();
+
+
+		final var pagamentoPedido1 = PagamentoComCartao
+				.builder()
+				.pedido(pedido1)
+				.estado(EstadoPagamento.QUITADO)
+				.numeroDeParcelas(6)
+				.build();
+
+		final var pagamentoPedido2 = PagamentoComBoleto
+				.builder()
+				.pedido(pedido2)
+				.estado(EstadoPagamento.PEDENTE)
+				.dateVencimento(LocalDate.now().plusMonths(2))
+				.build();
+
+		pedido1.setPagamento(pagamentoPedido1);
+		pedido2.setPagamento(pagamentoPedido2);
+
+		this.pedidoRepository.saveAll(List.of(pedido1, pedido2));
+		this.pagamentoRepository.saveAll(List.of(pagamentoPedido1, pagamentoPedido2));
+
+		this.pedidoRepository.findAllByCliente(cliente)
+				.forEach(System.out::println);
 
 	}
 }

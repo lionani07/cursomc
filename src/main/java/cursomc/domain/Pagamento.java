@@ -15,10 +15,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Pagamento {
+public abstract class Pagamento {
 
     @Id
     private Integer id;
+
+    @Enumerated(EnumType.STRING)
     private EstadoPagamento estado;
 
     @OneToOne
