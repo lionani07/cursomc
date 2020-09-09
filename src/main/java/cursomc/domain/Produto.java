@@ -31,7 +31,7 @@ public class Produto {
     )
     private final List<Categoria> categorias = new ArrayList<>();
 
-    @OneToMany(mappedBy = "id.produto")
+    @OneToMany(mappedBy = "id.produto", fetch = FetchType.EAGER)
     private Set<ItemPedido> itens = new HashSet<>();
 
     public List<Pedido> getPedidos() {

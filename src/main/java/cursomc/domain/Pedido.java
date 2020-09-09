@@ -31,7 +31,7 @@ public class Pedido {
     @ManyToOne(optional = false)
     private Endereco enderecoDeEntrega;
 
-    @OneToMany(mappedBy = "id.pedido")
+    @OneToMany(mappedBy = "id.pedido", fetch = FetchType.EAGER)
     private Set<ItemPedido> itens = new HashSet<>();
 }
 

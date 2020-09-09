@@ -36,6 +36,8 @@ public class CursomcApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -48,6 +50,7 @@ public class CursomcApplication implements CommandLineRunner {
 		insertIntoCidadeEstado();
 		insertIntoClienteEndereco();
 		insertPedidos();
+		insertItemPedidos();
 	}
 
 	private void insertIntoCategoriaProduto() {
@@ -199,6 +202,22 @@ public class CursomcApplication implements CommandLineRunner {
 
 		this.pedidoRepository.saveAll(List.of(pedido1, pedido2));
 		this.pagamentoRepository.saveAll(List.of(pagamentoPedido1, pagamentoPedido2));
+
+	}
+
+	private void insertItemPedidos() {
+		final var pedido1 = this.pedidoRepository.findById(1).get();
+		final var pedido2 = this.pedidoRepository.findById(2).get();
+
+		final var produto1 = this.produtoRepository.findById(1).get();
+		final var produto2 = this.produtoRepository.findById(2).get();
+		final var produto3 = this.produtoRepository.findById(3).get();
+
+		final var itemPedido1 = new ItemPedido(pedido1, produto1, 1, 2000.00, 0.00);
+		final var itemPedido2 = new ItemPedido(pedido1, produto3, 2, 80.00, 0.00);
+		final var itemPedido3 = new ItemPedido(pedido2, produto2, 1, 800.00, 100.00);
+
+		this.itemPedidoRepository.saveAll(List.of(itemPedido1, itemPedido2, itemPedido3));
 
 	}
 }

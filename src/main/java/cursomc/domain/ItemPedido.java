@@ -12,7 +12,7 @@ import javax.persistence.Entity;
 public class ItemPedido {
 
     @EmbeddedId
-    private ItemPedidoPK id;
+    private ItemPedidoPK id = new ItemPedidoPK();
 
     private Double desconto;
     private Integer quantidade;
@@ -26,6 +26,9 @@ public class ItemPedido {
         this.quantidade = quantidade;
         this.preco = preco;
         this.desconto = desconto;
+
+        pedido.getItens().add(this);
+        produto.getItens().add(this);
     }
 
     public Produto getProduto() {
