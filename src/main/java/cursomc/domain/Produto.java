@@ -1,7 +1,10 @@
 package cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,17 +26,19 @@ public class Produto {
     private String nome;
     private Double valor;
 
-    @ManyToMany
     @JsonIgnore
+    @ManyToMany
     @JoinTable(name = "PRODUTO_CATEGORIA",
             joinColumns = @JoinColumn(name = "produto_id"),
             inverseJoinColumns = @JoinColumn(name = "categoria_id")
     )
     private final List<Categoria> categorias = new ArrayList<>();
 
-    @OneToMany(mappedBy = "id.produto", fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToMany(mappedBy = "id.produto")
     private Set<ItemPedido> itens = new HashSet<>();
 
+    @JsonIgnore
     public List<Pedido> getPedidos() {
         return this.itens
                 .stream()

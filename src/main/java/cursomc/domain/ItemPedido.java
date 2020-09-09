@@ -1,6 +1,9 @@
 package cursomc.domain;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -11,6 +14,7 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(of = {"id"})
 public class ItemPedido {
 
+    @JsonIgnore
     @EmbeddedId
     private ItemPedidoPK id = new ItemPedidoPK();
 
@@ -26,15 +30,13 @@ public class ItemPedido {
         this.quantidade = quantidade;
         this.preco = preco;
         this.desconto = desconto;
-
-        pedido.getItens().add(this);
-        produto.getItens().add(this);
     }
 
     public Produto getProduto() {
         return this.id.getProduto();
     }
 
+    @JsonIgnore
     public Pedido getPedido() {
         return this.id.getPedido();
     }

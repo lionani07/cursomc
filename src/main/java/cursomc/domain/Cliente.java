@@ -1,5 +1,6 @@
 package cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cursomc.domain.enums.TipoCliente;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +37,7 @@ public class Cliente {
     @CollectionTable(name = "TELEFONE")
     private Set<String> telefones = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 

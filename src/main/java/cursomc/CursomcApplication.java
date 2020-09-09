@@ -183,19 +183,9 @@ public class CursomcApplication implements CommandLineRunner {
 				.build();
 
 
-		final var pagamentoPedido1 = PagamentoComCartao
-				.builder()
-				.pedido(pedido1)
-				.estado(EstadoPagamento.QUITADO)
-				.numeroDeParcelas(6)
-				.build();
+		final var pagamentoPedido1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, pedido1, 6);
 
-		final var pagamentoPedido2 = PagamentoComBoleto
-				.builder()
-				.pedido(pedido2)
-				.estado(EstadoPagamento.PEDENTE)
-				.dateVencimento(LocalDate.now().plusMonths(2))
-				.build();
+		final var pagamentoPedido2 = new PagamentoComBoleto(null, EstadoPagamento.PEDENTE, pedido2, LocalDate.now().plusMonths(1), null);
 
 		pedido1.setPagamento(pagamentoPedido1);
 		pedido2.setPagamento(pagamentoPedido2);

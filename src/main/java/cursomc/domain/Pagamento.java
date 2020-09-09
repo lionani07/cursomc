@@ -1,21 +1,18 @@
 package cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cursomc.domain.enums.EstadoPagamento;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
-public abstract class Pagamento {
+@Setter
+public abstract class Pagamento implements Serializable {
 
     @Id
     private Integer id;
@@ -23,8 +20,18 @@ public abstract class Pagamento {
     @Enumerated(EnumType.STRING)
     private EstadoPagamento estado;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "pedido_id")
     @MapsId
     private Pedido pedido;
+
+    public Pagamento() {}
+
+    public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
+        this.id = id;
+        this.estado = estado;
+        this.pedido = pedido;
+    }
+
 }
