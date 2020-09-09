@@ -200,8 +200,5 @@ public class CursomcApplication implements CommandLineRunner {
 		this.pedidoRepository.saveAll(List.of(pedido1, pedido2));
 		this.pagamentoRepository.saveAll(List.of(pagamentoPedido1, pagamentoPedido2));
 
-		this.pedidoRepository.findAllByCliente(cliente)
-				.forEach(System.out::println);
-
 	}
 }
