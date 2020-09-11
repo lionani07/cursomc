@@ -1,5 +1,6 @@
 package cursomc.resources;
 
+import cursomc.domain.Pedido;
 import cursomc.services.PedidoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class PedidoResource {
     private final PedidoService pedidoService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> find(@PathVariable Integer id) {
+    public ResponseEntity<Pedido> find(@PathVariable Integer id) {
         final var pedido = this.pedidoService.find(id);
         return ResponseEntity.ok().body(pedido);
     }

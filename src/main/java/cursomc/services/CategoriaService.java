@@ -20,4 +20,11 @@ public class CategoriaService {
     public Categoria insert(final Categoria categoria) {
         return this.repository.save(categoria);
     }
+
+    public void update(Integer id, Categoria categoria) {
+        final var categoriaToUpdate = this.find(id);
+        categoria.setId(categoriaToUpdate.getId());
+        this.repository.save(categoria);
+    }
+
 }
