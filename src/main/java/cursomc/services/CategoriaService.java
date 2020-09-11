@@ -16,4 +16,8 @@ public class CategoriaService {
         return this.repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Categoria.class, id));
     }
+
+    public Categoria insert(final Categoria categoria) {
+        return this.repository.save(categoria);
+    }
 }
