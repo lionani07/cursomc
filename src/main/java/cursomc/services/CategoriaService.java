@@ -2,8 +2,10 @@ package cursomc.services;
 
 import cursomc.domain.Categoria;
 import cursomc.respositoires.CategoriaRepository;
+import cursomc.services.exceptions.DataIntegrityViolation;
 import cursomc.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,4 +29,13 @@ public class CategoriaService {
         this.repository.save(categoria);
     }
 
+    public void delete(final Integer id) {
+        try {
+            this.find(id);
+            this.repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolation(Categoria.class, e);
+        }
+
+    }
 }
