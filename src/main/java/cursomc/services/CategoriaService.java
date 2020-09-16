@@ -6,7 +6,10 @@ import cursomc.services.exceptions.DataIntegrityViolation;
 import cursomc.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +40,9 @@ public class CategoriaService {
             throw new DataIntegrityViolation(Categoria.class, e);
         }
 
+    }
+
+    public List<Categoria> findAll() {
+        return this.repository.findAll();
     }
 }

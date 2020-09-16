@@ -21,4 +21,8 @@ public class Categoria {
 
     @ManyToMany(mappedBy = "categorias")
     private final List<Produto> produtos = new ArrayList<>();
+
+    public Integer getTotalProdutos() {
+        return this.produtos.size();
+    }
 }

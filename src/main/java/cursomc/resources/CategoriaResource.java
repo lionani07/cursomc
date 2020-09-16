@@ -1,11 +1,14 @@
 package cursomc.resources;
 
 import cursomc.domain.Categoria;
+import cursomc.resources.dto.CategoriaDTO;
 import cursomc.services.CategoriaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/categorias")
@@ -41,5 +44,11 @@ public class CategoriaResource {
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         this.service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CategoriaDTO>> findAll() {
+        final var categorias = this.service.findAll();
+        return ResponseEntity.ok().body(CategoriaDTO.of(categorias));
     }
 }
