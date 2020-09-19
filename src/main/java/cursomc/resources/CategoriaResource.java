@@ -4,6 +4,10 @@ import cursomc.domain.Categoria;
 import cursomc.resources.dto.CategoriaDTO;
 import cursomc.services.CategoriaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -50,5 +54,17 @@ public class CategoriaResource {
     public ResponseEntity<List<CategoriaDTO>> findAll() {
         final var categorias = this.service.findAll();
         return ResponseEntity.ok().body(CategoriaDTO.of(categorias));
+    }
+
+    @GetMapping("/pagination")
+    public Page<CategoriaDTO> findAllWithPagination(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "24") Integer size,
+            @RequestParam(defaultValue = "ASC") String direction,
+            @RequestParam(defaultValue = "nome") String orderBy) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
+        final var categorias = this.service.findAllByPage(pageable);
+        return categorias.map(CategoriaDTO::new);
     }
 }

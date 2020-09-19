@@ -6,7 +6,8 @@ import cursomc.services.exceptions.DataIntegrityViolation;
 import cursomc.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +45,9 @@ public class CategoriaService {
 
     public List<Categoria> findAll() {
         return this.repository.findAll();
+    }
+
+    public Page<Categoria> findAllByPage(Pageable pageable) {
+        return this.repository.findAll(pageable);
     }
 }
