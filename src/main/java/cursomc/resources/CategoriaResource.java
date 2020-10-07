@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,8 +29,8 @@ public class CategoriaResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody final Categoria categoria) {
-        final var categoriaCreated = this.service.insert(categoria);
+    public ResponseEntity<Void> insert(@Valid @RequestBody final CategoriaDTO categoriaDTO) {
+        final var categoriaCreated = this.service.insert(categoriaDTO);
         final var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -52,8 +53,8 @@ public class CategoriaResource {
 
     @GetMapping
     public ResponseEntity<List<CategoriaDTO>> findAll() {
-        final var categorias = this.service.findAll();
-        return ResponseEntity.ok().body(CategoriaDTO.of(categorias));
+        final var categoriasDtos = this.service.findAll();
+        return ResponseEntity.ok().body(categoriasDtos);
     }
 
     @GetMapping("/pagination")
@@ -64,7 +65,6 @@ public class CategoriaResource {
             @RequestParam(defaultValue = "nome") String orderBy) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
-        final var categorias = this.service.findAllByPage(pageable);
-        return categorias.map(CategoriaDTO::new);
+        return this.service.findAllByPage(pageable);
     }
 }

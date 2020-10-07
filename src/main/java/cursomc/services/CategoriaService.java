@@ -1,6 +1,7 @@
 package cursomc.services;
 
 import cursomc.domain.Categoria;
+import cursomc.resources.dto.CategoriaDTO;
 import cursomc.respositoires.CategoriaRepository;
 import cursomc.services.exceptions.DataIntegrityViolation;
 import cursomc.services.exceptions.ResourceNotFoundException;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +25,8 @@ public class CategoriaService {
                 .orElseThrow(() -> new ResourceNotFoundException(Categoria.class, id));
     }
 
-    public Categoria insert(final Categoria categoria) {
-        return this.repository.save(categoria);
+    public CategoriaDTO insert(final CategoriaDTO categoriaDTO) {
+        return this.repository.save(Categoria.of(categoriaDTO)).toDto();
     }
 
     public void update(Integer id, Categoria categoria) {
@@ -43,11 +45,14 @@ public class CategoriaService {
 
     }
 
-    public List<Categoria> findAll() {
-        return this.repository.findAll();
+    public List<CategoriaDTO> findAll() {
+        return this.repository.findAll()
+                .stream()
+                .map(Categoria::toDto)
+                .collect(Collectors.toList());
     }
 
-    public Page<Categoria> findAllByPage(Pageable pageable) {
-        return this.repository.findAll(pageable);
+    public Page<CategoriaDTO> findAllByPage(Pageable pageable) {
+        return this.repository.findAll(pageable).map(Categoria::toDto);
     }
 }

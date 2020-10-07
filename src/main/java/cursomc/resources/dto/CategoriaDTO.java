@@ -1,29 +1,19 @@
 package cursomc.resources.dto;
 
-import cursomc.domain.Categoria;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.validation.constraints.NotBlank;
 
+@Builder(toBuilder = true)
 @Getter
-@NoArgsConstructor
 public class CategoriaDTO {
 
+    private Integer id;
+
+    @NotBlank(message = "Nome é campo obrigatório")
+    @Length(min = 5, max = 80, message = "O tamanho do nome deve estar entre 5 - 80 caracteres")
     private String nome;
-    private Integer totalProdutos;
-
-    public CategoriaDTO(Categoria categoria) {
-        this.nome = categoria.getNome();
-        this.totalProdutos = categoria.getTotalProdutos();
-    }
-
-    public static List<CategoriaDTO> of(List<Categoria> categorias) {
-        return categorias
-                .stream()
-                .map(CategoriaDTO::new)
-                .collect(Collectors.toList());
-    }
 
 }

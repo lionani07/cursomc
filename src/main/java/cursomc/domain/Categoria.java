@@ -1,5 +1,6 @@
 package cursomc.domain;
 
+import cursomc.resources.dto.CategoriaDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,5 +25,21 @@ public class Categoria {
 
     public Integer getTotalProdutos() {
         return this.produtos.size();
+    }
+
+    public static Categoria of(CategoriaDTO categoriaDTO) {
+        return Categoria
+                .builder()
+                .id(categoriaDTO.getId())
+                .nome(categoriaDTO.getNome())
+                .build();
+    }
+
+    public CategoriaDTO toDto() {
+        return CategoriaDTO
+                .builder()
+                .id(this.id)
+                .nome(this.nome)
+                .build();
     }
 }
