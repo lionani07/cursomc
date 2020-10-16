@@ -12,8 +12,8 @@ public class CategoriaDTO {
 
     private Integer id;
 
-    @NotBlank(message = "Nome é campo obrigatório")
-    @Length(min = 5, max = 80, message = "O tamanho do nome deve estar entre 5 - 80 caracteres")
+    @NotBlank
+    @Length(min = 5, max = 80, message = "O tamanho do nome deve estar entre 5 e 80 caracteres")
     private String nome;
 
 }

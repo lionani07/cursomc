@@ -1,23 +1,15 @@
 package cursomc.resources.handler;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.validation.FieldError;
 
-@Builder(toBuilder = true)
+
 @Getter
+@AllArgsConstructor
 public class FieldMessageError {
 
     private final String field;
     private final String message;
-
-    public static FieldMessageError of(FieldError fieldError) {
-        return FieldMessageError
-                .builder()
-                .field(fieldError.getField())
-                .message(fieldError.getDefaultMessage())
-                .build();
-    }
 
 
 }
