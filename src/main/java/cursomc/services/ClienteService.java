@@ -8,6 +8,9 @@ import cursomc.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ClienteService {
@@ -24,5 +27,13 @@ public class ClienteService {
 
     public ClienteDTO save(ClienteDTO clienteDTO) {
         return this.repository.save(Cliente.of(clienteDTO)).toDto();
+    }
+
+    public List<ClienteDTO> findAll() {
+        return this.repository
+                .findAll()
+                .stream()
+                .map(Cliente::toDto)
+                .collect(Collectors.toList());
     }
 }

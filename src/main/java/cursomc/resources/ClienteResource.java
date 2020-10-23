@@ -33,5 +33,11 @@ public class ClienteResource {
         return ResponseEntity.created(location).body(clienteSavedAsDto);
     }
 
+    @GetMapping
+    public ResponseEntity<?> findAll() {
+        final var clienteDtos = this.clienteService.findAll();
+        return ResponseEntity.ok(clienteDtos);
+    }
+
 
 }
