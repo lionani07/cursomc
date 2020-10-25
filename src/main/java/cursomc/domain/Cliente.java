@@ -32,7 +32,7 @@ public class Cliente {
     @Enumerated(EnumType.STRING)
     private TipoCliente tipo;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private final List<Endereco> enderecos = new ArrayList<>();
 
     @ElementCollection

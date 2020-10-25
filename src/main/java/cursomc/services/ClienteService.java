@@ -15,7 +15,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,20 +27,17 @@ public class ClienteService {
     private final CidadeRepository cidadeRepository;
     private final EnderecoRepository enderecoRepository;
 
-    @Transactional(readOnly = true)
-    public ClienteDTO find(Integer id) {
+   public ClienteDTO find(Integer id) {
         return this.repository
                 .findById(id)
                 .map(Cliente::toDto)
                 .orElseThrow(()-> new ResourceNotFoundException(Cliente.class, id));
     }
 
-    @Transactional
     public ClienteDTO save(ClienteDTO clienteDTO) {
         return this.repository.save(Cliente.of(clienteDTO)).toDto();
     }
 
-    @Transactional
     public ClienteDTO save(ClienteNewDTO clienteNewDTO) {
         final var clienteSaved = this.repository.save(Cliente.of(clienteNewDTO));
 
@@ -62,14 +58,12 @@ public class ClienteService {
                 }).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public Page<ClienteDTO> findAll(Pageable pageable) {
         return this.repository
                 .findAll(pageable)
                 .map(Cliente::toDto);
     }
 
-    @Transactional
     public void delete(Integer id) {
         try {
             this.repository.deleteById(id);
@@ -80,7 +74,6 @@ public class ClienteService {
         }
     }
 
-    @Transactional
     public ClienteDTO update(Integer id, ClienteDTO clienteDTO) {
         final var exintingCliente = find(id);
         final var clienteToUpdate = clienteDTO
