@@ -1,6 +1,6 @@
 package cursomc.resources.handler;
 
-import cursomc.services.exceptions.DataIntegrityViolation;
+import cursomc.services.exceptions.DataIntegrityException;
 import cursomc.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,8 +30,8 @@ public class ResourceExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(DataIntegrityViolation.class)
-    public ResponseEntity<StandarError> dataIntegrityViolation(DataIntegrityViolation e, HttpServletRequest request) {
+    @ExceptionHandler(DataIntegrityException.class)
+    public ResponseEntity<StandarError> dataIntegrityViolation(DataIntegrityException e, HttpServletRequest request) {
         final var standarError = StandarError.of(
                 HttpStatus.BAD_REQUEST,
                 request.getRequestURI(),

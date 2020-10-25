@@ -33,6 +33,12 @@ public class ClienteResource {
         return ResponseEntity.created(location).body(clienteSavedAsDto);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable final Integer id) {
+        this.clienteService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping
     public ResponseEntity<?> findAll() {
         final var clienteDtos = this.clienteService.findAll();

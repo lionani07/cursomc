@@ -4,8 +4,11 @@ import cursomc.domain.Cliente;
 import cursomc.resources.dto.ClienteDTO;
 import cursomc.respositoires.ClienteRepository;
 import cursomc.respositoires.PedidoRepository;
+import cursomc.services.exceptions.DataIntegrityException;
 import cursomc.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,5 +38,15 @@ public class ClienteService {
                 .stream()
                 .map(Cliente::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public void delete(Integer id) {
+        try {
+            this.repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(Cliente.class, id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException(Cliente.class, e);
+        }
     }
 }
