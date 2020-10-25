@@ -1,6 +1,7 @@
 package cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import cursomc.resources.dto.EnderecoNewDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,4 +34,17 @@ public class Endereco {
     @ManyToOne
     @JoinColumn(name = "cidade_id")
     private Cidade cidade;
+
+    public static Endereco of(EnderecoNewDto enderecoNewDto, Cliente cliente, Cidade cidade) {
+        return Endereco
+                .builder()
+                .logradouro(enderecoNewDto.getLogradouro())
+                .numero(enderecoNewDto.getNumero())
+                .complemento(enderecoNewDto.getComplemento())
+                .bairro(enderecoNewDto.getBairro())
+                .cep(enderecoNewDto.getCep())
+                .cliente(cliente)
+                .cidade(cidade)
+                .build();
+    }
 }

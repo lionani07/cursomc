@@ -1,6 +1,7 @@
 package cursomc.resources;
 
 import cursomc.resources.dto.ClienteDTO;
+import cursomc.resources.dto.ClienteNewDTO;
 import cursomc.services.ClienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,7 @@ public class ClienteResource {
         return ResponseEntity.ok().body(cliente);
     }
 
+    /*
     @PostMapping
     public ResponseEntity<ClienteDTO> save(@RequestBody @Valid ClienteDTO clienteDTO, UriComponentsBuilder uriComponentsBuilder) {
         final var clienteSavedAsDto = this.clienteService.save(clienteDTO);
@@ -33,7 +35,7 @@ public class ClienteResource {
                 .buildAndExpand(clienteSavedAsDto.getId())
                 .toUri();
         return ResponseEntity.created(location).body(clienteSavedAsDto);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable final Integer id) {
@@ -59,6 +61,19 @@ public class ClienteResource {
 
         final var pageCliente = this.clienteService.findAll(pageable);
         return ResponseEntity.ok(pageCliente);
+    }
+
+    @PostMapping
+    public ResponseEntity<ClienteDTO> saveWithPhones(@RequestBody ClienteNewDTO clienteNewDTO, UriComponentsBuilder uriComponentsBuilder) {
+        final var clienteSaved =  this.clienteService.save(clienteNewDTO);
+
+        final var location = uriComponentsBuilder
+                .path("/{id}")
+                .buildAndExpand(clienteSaved.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(clienteSaved);
+
     }
 
 

@@ -1,9 +1,12 @@
 package cursomc.services;
 
 import cursomc.domain.Cliente;
+import cursomc.domain.Endereco;
 import cursomc.resources.dto.ClienteDTO;
+import cursomc.resources.dto.ClienteNewDTO;
+import cursomc.respositoires.CidadeRepository;
 import cursomc.respositoires.ClienteRepository;
-import cursomc.respositoires.PedidoRepository;
+import cursomc.respositoires.EnderecoRepository;
 import cursomc.services.exceptions.DataIntegrityException;
 import cursomc.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +17,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ClienteService {
 
     private final ClienteRepository repository;
-    private final PedidoRepository pedidoRepository;
+    private final CidadeRepository cidadeRepository;
+    private final EnderecoRepository enderecoRepository;
 
     @Transactional(readOnly = true)
     public ClienteDTO find(Integer id) {
@@ -32,6 +39,27 @@ public class ClienteService {
     @Transactional
     public ClienteDTO save(ClienteDTO clienteDTO) {
         return this.repository.save(Cliente.of(clienteDTO)).toDto();
+    }
+
+    @Transactional
+    public ClienteDTO save(ClienteNewDTO clienteNewDTO) {
+        final var clienteSaved = this.repository.save(Cliente.of(clienteNewDTO));
+
+        final var enderecos = buildEnderecosFrom(clienteNewDTO, clienteSaved);
+
+        this.enderecoRepository.saveAll(enderecos);
+
+        return clienteSaved.toDto();
+
+    }
+
+    private List<Endereco> buildEnderecosFrom(ClienteNewDTO clienteNewDTO, Cliente cliente) {
+        return clienteNewDTO.getEnderecos()
+                .stream()
+                .map(enderecoNewDto -> {
+                    final var cidade = this.cidadeRepository.getOne(enderecoNewDto.getCidadeId());
+                    return Endereco.of(enderecoNewDto, cliente, cidade);
+                }).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

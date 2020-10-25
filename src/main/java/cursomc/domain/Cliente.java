@@ -3,6 +3,7 @@ package cursomc.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cursomc.domain.enums.TipoCliente;
 import cursomc.resources.dto.ClienteDTO;
+import cursomc.resources.dto.ClienteNewDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,6 +51,17 @@ public class Cliente {
                 .email(clienteDTO.getEmail())
                 .cpfOuCnpj(clienteDTO.getCpfOuCnpj())
                 .tipo(clienteDTO.getTipo())
+                .build();
+    }
+
+    public static Cliente of(ClienteNewDTO clienteNewDTO) {
+        return Cliente
+                .builder()
+                .nome(clienteNewDTO.getNome())
+                .email(clienteNewDTO.getEmail())
+                .cpfOuCnpj(clienteNewDTO.getCpfOuCnpj())
+                .tipo(clienteNewDTO.getTipo())
+                .telefones(Set.of(clienteNewDTO.getTelefone()))
                 .build();
     }
 
