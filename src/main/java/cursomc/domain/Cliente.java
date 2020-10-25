@@ -47,7 +47,7 @@ public class Cliente {
                 .builder()
                 .id(clienteDTO.getId())
                 .nome(clienteDTO.getNome())
-                .email(clienteDTO.getNome())
+                .email(clienteDTO.getEmail())
                 .cpfOuCnpj(clienteDTO.getCpfOuCnpj())
                 .tipo(clienteDTO.getTipo())
                 .build();

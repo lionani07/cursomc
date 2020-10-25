@@ -3,6 +3,8 @@ package cursomc.resources;
 import cursomc.resources.dto.ClienteDTO;
 import cursomc.services.ClienteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -39,10 +41,24 @@ public class ClienteResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteDTO> update(@PathVariable final Integer id, @Valid @RequestBody ClienteDTO clienteDTO) {
+        final var clienteUpdated = this.clienteService.update(id, clienteDTO);
+        return ResponseEntity.ok(clienteUpdated);
+    }
+
     @GetMapping
-    public ResponseEntity<?> findAll() {
-        final var clienteDtos = this.clienteService.findAll();
-        return ResponseEntity.ok(clienteDtos);
+    public ResponseEntity<?> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "2")  int size,
+            @RequestParam(defaultValue = "id") String orderBy,
+            @RequestParam(defaultValue = "ASC") String direction) {
+
+        final var sort = Sort.by(Sort.Direction.valueOf(direction), orderBy);
+        final var pageable = PageRequest.of(page, size, sort);
+
+        final var pageCliente = this.clienteService.findAll(pageable);
+        return ResponseEntity.ok(pageCliente);
     }
 
 

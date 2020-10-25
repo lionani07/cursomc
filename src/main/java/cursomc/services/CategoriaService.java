@@ -6,6 +6,7 @@ import cursomc.respositoires.CategoriaRepository;
 import cursomc.services.exceptions.DataIntegrityException;
 import cursomc.services.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class CategoriaService {
         try {
             this.find(id);
             this.repository.deleteById(id);
-        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException(Categoria.class, e);
         }
 
