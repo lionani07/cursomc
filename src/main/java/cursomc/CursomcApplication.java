@@ -4,8 +4,6 @@ import cursomc.domain.*;
 import cursomc.domain.enums.EstadoPagamento;
 import cursomc.domain.enums.TipoCliente;
 import cursomc.respositoires.*;
-import cursomc.services.ClienteService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 

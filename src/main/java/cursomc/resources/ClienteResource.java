@@ -64,7 +64,7 @@ public class ClienteResource {
     }
 
     @PostMapping
-    public ResponseEntity<ClienteDTO> saveWithPhones(@RequestBody ClienteNewDTO clienteNewDTO, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<ClienteDTO> saveWithPhones(@RequestBody @Valid ClienteNewDTO clienteNewDTO, UriComponentsBuilder uriComponentsBuilder) {
         final var clienteSaved =  this.clienteService.save(clienteNewDTO);
 
         final var location = uriComponentsBuilder

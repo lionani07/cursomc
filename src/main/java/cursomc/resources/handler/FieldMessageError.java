@@ -10,6 +10,4 @@ public class FieldMessageError {
 
     private final String field;
     private final String message;
-
-
 }
