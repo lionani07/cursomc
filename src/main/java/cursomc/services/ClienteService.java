@@ -83,4 +83,8 @@ public class ClienteService {
         return this.repository.save(Cliente.of(clienteToUpdate)).toDto();
     }
 
+    public Cliente findByEmail(final String email) {
+       return this.repository.findByEmail(email);
+    }
+
 }
