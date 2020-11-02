@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
+@EnableSpringDataWebSupport
 public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired

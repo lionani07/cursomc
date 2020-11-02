@@ -55,4 +55,8 @@ public class CategoriaService {
     public Page<CategoriaDTO> findAllByPage(Pageable pageable) {
         return this.repository.findAll(pageable).map(Categoria::toDto);
     }
+
+    public List<Categoria> findAllByIds(List<Integer> categoriasIds) {
+        return this.repository.findAllById(categoriasIds);
+    }
 }
