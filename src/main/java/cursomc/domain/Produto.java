@@ -1,6 +1,7 @@
 package cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import cursomc.resources.dto.ProdutoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,6 +45,15 @@ public class Produto {
                 .stream()
                 .map(ItemPedido::getPedido)
                 .collect(Collectors.toList());
+    }
+
+    public ProdutoDTO toDto() {
+        return ProdutoDTO
+                .builder()
+                .id(this.id)
+                .nome(this.nome)
+                .valor(this.valor)
+                .build();
     }
 
 }

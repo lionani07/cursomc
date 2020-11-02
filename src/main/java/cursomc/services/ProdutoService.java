@@ -1,6 +1,7 @@
 package cursomc.services;
 
 import cursomc.domain.Produto;
+import cursomc.resources.dto.ProdutoDTO;
 import cursomc.respositoires.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,9 +17,11 @@ public class ProdutoService {
     private final ProdutoRepository produtoRepository;
     private final CategoriaService categoriaService;
 
-    public Page<Produto> search(String nome, List<Integer> categoriasIds, Pageable pageable) {
+    public Page<ProdutoDTO> search(String nome, List<Integer> categoriasIds, Pageable pageable) {
         final var categorias = this.categoriaService.findAllByIds(categoriasIds);
-        return this.produtoRepository.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageable);
+        return this.produtoRepository
+                .findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageable)
+                .map(Produto::toDto);
     }
 
 }
