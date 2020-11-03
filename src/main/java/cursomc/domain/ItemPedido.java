@@ -24,16 +24,24 @@ public class ItemPedido {
 
     public ItemPedido() {}
 
-    public ItemPedido(Pedido pedido, Produto produto, Integer quantidade, Double preco, Double desconto) {
+    public ItemPedido(Pedido pedido, Produto produto, Integer quantidade, Double desconto) {
         this.id.setPedido(pedido);
         this.id.setProduto(produto);
         this.quantidade = quantidade;
-        this.preco = preco;
+        this.preco = produto.getValor();
         this.desconto = desconto;
     }
 
     public Produto getProduto() {
         return this.id.getProduto();
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.id.setPedido(pedido);
+    }
+
+    public void setProduto(Produto produto) {
+        this.id.setProduto(produto);
     }
 
     @JsonIgnore

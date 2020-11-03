@@ -10,7 +10,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -184,7 +183,7 @@ public class CursomcApplication implements CommandLineRunner {
 
 		final var pagamentoPedido1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, pedido1, 6);
 
-		final var pagamentoPedido2 = new PagamentoComBoleto(null, EstadoPagamento.PEDENTE, pedido2, LocalDate.now().plusMonths(1), null);
+		final var pagamentoPedido2 = new PagamentoComBoleto(null, EstadoPagamento.PEDENTE, pedido2, null);
 
 		pedido1.setPagamento(pagamentoPedido1);
 		pedido2.setPagamento(pagamentoPedido2);
@@ -202,9 +201,9 @@ public class CursomcApplication implements CommandLineRunner {
 		final var produto2 = this.produtoRepository.findById(2).get();
 		final var produto3 = this.produtoRepository.findById(3).get();
 
-		final var itemPedido1 = new ItemPedido(pedido1, produto1, 1, 2000.00, 0.00);
-		final var itemPedido2 = new ItemPedido(pedido1, produto3, 2, 80.00, 0.00);
-		final var itemPedido3 = new ItemPedido(pedido2, produto2, 1, 800.00, 100.00);
+		final var itemPedido1 = new ItemPedido(pedido1, produto1, 1, 0.00);
+		final var itemPedido2 = new ItemPedido(pedido1, produto3, 2, 0.00);
+		final var itemPedido3 = new ItemPedido(pedido2, produto2, 1, 100.00);
 
 		this.itemPedidoRepository.saveAll(List.of(itemPedido1, itemPedido2, itemPedido3));
 

@@ -4,10 +4,10 @@ import cursomc.domain.Pedido;
 import cursomc.services.PedidoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -20,6 +20,19 @@ public class PedidoResource {
     public ResponseEntity<Pedido> find(@PathVariable Integer id) {
         final var pedido = this.pedidoService.find(id);
         return ResponseEntity.ok().body(pedido);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody @Valid Pedido pedido, UriComponentsBuilder uriComponentsBuilder) {
+        final var pedidoSaved = this.pedidoService.save(pedido);
+
+        final var location = uriComponentsBuilder
+                .path("/{id}")
+                .buildAndExpand(pedidoSaved.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(pedidoSaved);
+
     }
 
 }
