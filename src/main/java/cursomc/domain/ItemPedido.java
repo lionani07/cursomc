@@ -40,4 +40,8 @@ public class ItemPedido {
     public Pedido getPedido() {
         return this.id.getPedido();
     }
+
+    public Double getTotal() {
+        return this.preco * this.quantidade;
+    }
 }

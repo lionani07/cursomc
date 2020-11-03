@@ -35,5 +35,13 @@ public class Pedido {
     @OneToMany(mappedBy = "id.pedido")
     private Set<ItemPedido> itens = new HashSet<>();
 
+    public Double getTotal() {
+        return this.getItens()
+                .stream()
+                .map(ItemPedido::getTotal)
+                .reduce(Double::sum)
+                .orElse(0.0);
+    }
+
 }
 
