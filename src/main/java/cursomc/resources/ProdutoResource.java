@@ -25,9 +25,10 @@ public class ProdutoResource {
             @RequestParam(value = "categorias", defaultValue = "") String categorias,
             Pageable pageable) {
 
+        final String nomeDecoded = URL.decodeParam(nome);
         final var categoriasIds = URL.convertFrom(categorias);
 
-        final var produtoPage = this.produtoService.search(nome, categoriasIds, pageable);
+        final var produtoPage = this.produtoService.search(nomeDecoded, categoriasIds, pageable);
         return ResponseEntity.ok(produtoPage);
     }
 }
