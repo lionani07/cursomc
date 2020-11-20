@@ -32,6 +32,8 @@ public class Cliente {
     @Enumerated(EnumType.STRING)
     private TipoCliente tipo;
 
+    private String senha;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private final List<Endereco> enderecos = new ArrayList<>();
 

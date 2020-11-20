@@ -5,6 +5,7 @@ import cursomc.domain.enums.EstadoPagamento;
 import cursomc.domain.enums.TipoCliente;
 import cursomc.respositoires.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,6 +33,8 @@ public class DBTestService {
     private PagamentoRepository pagamentoRepository;
     @Autowired
     private ItemPedidoRepository itemPedidoRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public void setUp() {
         insertIntoCategoriaProduto();
@@ -119,6 +122,7 @@ public class DBTestService {
                 .email("maria@gmail.com")
                 .cpfOuCnpj("14898367488")
                 .tipo(TipoCliente.PESSOAFISICA)
+                .senha(this.passwordEncoder.encode("nova senha"))
                 .telefones(Set.of("27363323", "75843562"))
                 .build();
 
